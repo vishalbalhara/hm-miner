@@ -9,6 +9,7 @@ jobs:
       matrix:
         args: [arm64, amd64]
     runs-on: ubuntu-20.04
+    environment: development
     permissions:
       packages: write
       contents: read
@@ -37,7 +38,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: |
-            nebraltd/hm-miner
+            suryatel/hm-miner
             ghcr.io/${{ github.repository }}
           flavor: |
             latest=true
@@ -55,6 +56,8 @@ jobs:
           push: true
           labels: ${{ steps.meta.outputs.labels }}
           tags: ${{ steps.meta.outputs.tags }}
+          cache-from: type=registry,ref=suryatel/hm-miner:buildcache
+          cache-to: type=registry,ref=suryatel/hm-miner:buildcache,mode=max
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

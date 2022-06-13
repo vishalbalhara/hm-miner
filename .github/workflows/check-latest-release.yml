@@ -43,7 +43,7 @@ jobs:
           github-token: ${{ secrets.MINER_UPDATE }}
       - name: Tag Commit
         if: env.UPDATED == 'true'
-        uses: NebraLtd/git-tag-action@master
+        uses: suryatel/git-tag-action@master
         env:
           TAG: ${{ env.LATEST_GA }}_GA
           GITHUB_TOKEN: ${{ secrets.MINER_UPDATE }}
@@ -63,31 +63,31 @@ jobs:
         with:
           token: ${{ secrets.MINER_UPDATE }}
           event-type: miner-update
-          repository: NebraLtd/helium-miner-software
+          repository: suryatel/helium-miner-software
           client-payload: '{"sha": "${{ steps.push.outputs.commit-sha }}", "release": "${{ env.LATEST_GA }}_GA", "tag": "${{ env.LATEST_GA }}"}'
-      - name: Report Status
-        if: env.UPDATED == 'true'
-        uses: ravsamhq/notify-slack-action@master
-        with:
-          status: ${{ job.status }}
-          notification_title: 'Miner GA has been updated to ${{ env.LATEST_GA }}. Please push to testnet!'
-          message_format: '{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}>'
-          footer: '<{run_url}|View Run> | Linked Repo <{repo_url}|{repo}> | <{workflow_url}|View Workflow>'
-          mention_groups: 'S02GCFWL27R'
-          notify_when: 'success'
-          token: ${{ secrets.GITHUB_TOKEN }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.MINER_MONITORING_SLACK }}
-      - name: Report Status Dev Team
-        if: env.UPDATED == 'true'
-        uses: ravsamhq/notify-slack-action@master
-        with:
-          status: ${{ job.status }}
-          notification_title: 'Miner GA has been updated to ${{ env.LATEST_GA }}. Please push to testnet!'
-          message_format: '{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}>'
-          footer: '<{run_url}|View Run> | Linked Repo <{repo_url}|{repo}> | <{workflow_url}|View Workflow>'
-          mention_groups: 'S02GCFWL27R'
-          notify_when: 'success'
-          token: ${{ secrets.GITHUB_TOKEN }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.DEV_TEAM_SLACK }}
+      # - name: Report Status
+      #   if: env.UPDATED == 'true'
+      #   uses: ravsamhq/notify-slack-action@master
+      #   with:
+      #     status: ${{ job.status }}
+      #     notification_title: 'Miner GA has been updated to ${{ env.LATEST_GA }}. Please push to testnet!'
+      #     message_format: '{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}>'
+      #     footer: '<{run_url}|View Run> | Linked Repo <{repo_url}|{repo}> | <{workflow_url}|View Workflow>'
+      #     mention_groups: 'S02GCFWL27R'
+      #     notify_when: 'success'
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.MINER_MONITORING_SLACK }}
+      # - name: Report Status Dev Team
+      #   if: env.UPDATED == 'true'
+      #   uses: ravsamhq/notify-slack-action@master
+      #   with:
+      #     status: ${{ job.status }}
+      #     notification_title: 'Miner GA has been updated to ${{ env.LATEST_GA }}. Please push to testnet!'
+      #     message_format: '{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}>'
+      #     footer: '<{run_url}|View Run> | Linked Repo <{repo_url}|{repo}> | <{workflow_url}|View Workflow>'
+      #     mention_groups: 'S02GCFWL27R'
+      #     notify_when: 'success'
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.DEV_TEAM_SLACK }}
